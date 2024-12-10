@@ -8,7 +8,6 @@ function transcribeAudio(audioPath, targetData) {
             audio_path: audioPath,
             target_data: targetData,
         });
-
         let output = "";
         let error = "";
 
@@ -36,7 +35,7 @@ function transcribeAudio(audioPath, targetData) {
         });
     });
 }
-//comentario de prueba para la configuracion de github desktop
+
 // Ejemplo de uso
 const audioPath = "/Users/davidcalvomunoz/Desktop/ex.m4a";
 const targetData = [
