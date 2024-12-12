@@ -38,11 +38,11 @@
 
 // // Ejemplo de uso
 // const audioPath = "/Users/davidcalvomunoz/Desktop/ex.m4a";
-// const targetData = [
+// // const targetData = [
 //     { time: 15, level: 2 },
-//     { time: 7, level: 3 },
+//      { time: 7, level: 3 },
 
-// ];
+//  ];
 
 // transcribeAudio(audioPath, targetData)
 //     .then((result) => {
