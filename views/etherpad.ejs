@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pruebas Etherpad</title>
+</head>
+<body>
+    <h1>Pruebas de Etherpad</h1>
+
+    <!-- Formulario para crear un pad -->
+    <form action="/etherpad/create" method="post">
+        <input type="text" name="padID" placeholder="ID del pad" required>
+        <button type="submit">Crear Pad</button>
+    </form>
+
+    <!-- Formulario para eliminar un pad -->
+    <form action="/etherpad/delete/prueba123" method="post">
+        <button type="submit">Eliminar Pad "prueba123"</button>
+    </form>
+
+    <!-- Iframe para mostrar el pad directamente -->
+    <h2>Ver y editar Pad</h2>
+    <input type="text" id="padIDInput" placeholder="Introduce el ID del Pad" />
+    <button id="viewPadButton">Ver Pad</button>
+
+    <div id="padContainer" style="margin-top: 20px;">
+        <iframe id="padFrame" width="100%" height="500px" style="border: 1px solid #ccc;"></iframe>
+    </div>
+
+    <button onclick="window.location.href='/'">Volver a la página principal</button>
+
+    <script>
+        document.getElementById('viewPadButton').addEventListener('click', () => {
+            const padID = document.getElementById('padIDInput').value;
+            const iframe = document.getElementById('padFrame');
+            if (padID) {
+                iframe.src = `http://localhost:9001/p/${padID}`;
+            } else {
+                alert('Introduce un ID de Pad válido');
+            }
+        });
+    </script>
+</body>
+</html>
