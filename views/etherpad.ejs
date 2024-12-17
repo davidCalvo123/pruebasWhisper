@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pruebas Etherpad</title>
+    <link rel="stylesheet" href="/etherpad.css">
 </head>
 <body>
     <h1>Pruebas de Etherpad</h1>
 
     <!-- Formulario para crear un pad -->
-    <form action="/etherpad/create" method="post">
-        <input type="text" name="padID" placeholder="ID del pad" required>
+    <form id="createPadForm" action="/etherpad/create" method="post">
+        <input type="text" name="padID" id="padID" placeholder="ID del pad" required>
         <button type="submit">Crear Pad</button>
     </form>
 
@@ -24,21 +25,90 @@
     <input type="text" id="padIDInput" placeholder="Introduce el ID del Pad" />
     <button id="viewPadButton">Ver Pad</button>
 
-    <div id="padContainer" style="margin-top: 20px;">
-        <iframe id="padFrame" width="100%" height="500px" style="border: 1px solid #ccc;"></iframe>
+    <div id="padContainer" class="pad-container">
+        <iframe id="padFrame"></iframe>
     </div>
 
     <button onclick="window.location.href='/'">Volver a la página principal</button>
 
+    <!-- Modal de notificación -->
+    <div id="popupModal" class="modal">
+        <span class="modal-close" id="closeModal">&times;</span>
+        <h2 id="popupMessage"></h2>
+    </div>
+
     <script>
-        document.getElementById('viewPadButton').addEventListener('click', () => {
+        const form = document.getElementById('createPadForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            try {
+                const response = await fetch('/etherpad/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    showPopup(result.message, 'success');
+                } else {
+                    showPopup(result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error al crear el pad:', error);
+                showPopup('Ocurrió un error inesperado. Inténtalo de nuevo.', 'error');
+            }
+        });
+
+        document.getElementById('viewPadButton').addEventListener('click', async () => {
             const padID = document.getElementById('padIDInput').value;
             const iframe = document.getElementById('padFrame');
+            
             if (padID) {
-                iframe.src = `http://localhost:9001/p/${padID}`;
+                try {
+                    const response = await fetch(`/etherpad/check/${padID}`);
+                    const result = await response.json();
+
+                    if (result.success) {
+                        iframe.src = `http://localhost:9001/p/${padID}`;
+                    } else {
+                        showPopup(`El pad con ID '${padID}' no existe.`, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error al consultar si el pad existe:', error);
+                    showPopup('Ocurrió un error al verificar el pad.', 'error');
+                }
             } else {
-                alert('Introduce un ID de Pad válido');
+                showPopup('Introduce un ID de Pad válido', 'error');
             }
+        });
+
+        function showPopup(message, type) {
+            const modal = document.getElementById('popupModal');
+            const popupMessage = document.getElementById('popupMessage');
+            popupMessage.textContent = message;
+            
+            // Cambiar color del texto según tipo
+            if (type === 'success') {
+                popupMessage.style.color = '#4caf50'; // Verde
+            } else {
+                popupMessage.style.color = '#e74c3c'; // Rojo
+            }
+
+            modal.classList.add('show');
+
+            // Ocultar el popup automáticamente después de 3 segundos
+            setTimeout(() => {
+                modal.classList.remove('show');
+            }, 3000);
+        }
+
+        // Cerrar el modal al hacer clic en la "X"
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('popupModal').classList.remove('show');
         });
     </script>
 </body>

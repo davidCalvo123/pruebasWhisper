@@ -15,6 +15,14 @@ router.post('/create', (req, res) => {
     });
 });
 
+//ruta para verificar si un pad existe
+router.get('/check/:padID', (req, res) => {
+    const padID = req.params.padID;
+    etherpadManager.checkIfPadExists(padID, (result) => { // Usar etherpadManager en lugar de etherpadController
+        res.json(result);
+    });
+});
+
 // Ruta para eliminar un pad
 router.post('/delete/:padID', (req, res) => {
     const { padID } = req.params;
