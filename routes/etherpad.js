@@ -6,12 +6,12 @@ const etherpadManager = require('../controllers/etherpadController');
 router.get('/', (req, res) => {
     res.render('etherpad');
 });
-
 // Ruta para crear un pad
 router.post('/create', (req, res) => {
     const { padID } = req.body;
+
     etherpadManager.createPadIfNotExists(padID, (response) => {
-        res.json({ message: 'Pad creado con éxito', response });
+        res.json(response); 
     });
 });
 
@@ -30,5 +30,13 @@ router.post('/delete/:padID', (req, res) => {
         res.json({ message: `Pad con ID ${padID} eliminado`, response });
     });
 });
+
+// Ruta para eliminar todos los pads
+router.post('/deleteAll', (req, res) => {
+    etherpadManager.deleteAllPads((response) => {
+        res.json(response);
+    });
+});
+
 
 module.exports = router;

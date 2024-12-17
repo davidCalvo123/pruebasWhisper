@@ -1,0 +1,12 @@
+{
+    "watch": ["."],
+    "ignore": [
+      "etherpad-lite/build/*",
+      "etherpad-lite/src/*",
+      "etherpad-lite/node_modules/*",
+      "etherpad-lite/dist/*",
+      "node_modules/*"
+    ],
+    "ext": "js,json",
+    "exec": "node app.js"
+  }

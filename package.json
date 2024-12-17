@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "etherpad": "cd etherpad-lite && ./bin/run.sh",
-    "dev": "concurrently \"npm run etherpad\" \"nodemon app.js\"",
+    "dev": "concurrently \"npm run etherpad\" \"nodemon\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

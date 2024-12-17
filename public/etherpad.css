@@ -132,43 +132,30 @@ button[onclick]:hover {
     background-color: #0056b3;
 }
 
-/* --- Estilo del modal --- */
+/* --- Estilo del modal (popup) --- */
 .modal {
-    display: none; /* Se oculta inicialmente */
+    display: none; /* Ocultar inicialmente */
     position: fixed;
     z-index: 1000;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
-    background-color: #fefefe;
-    border: 1px solid #888;
+    background-color: #fff;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     text-align: center;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .modal.show {
-    display: block; /* Muestra el modal */
+    display: block;
 }
 
 .modal h2 {
     margin-top: 0;
-    color: #4caf50; /* Color verde para éxito */
-}
-
-.modal button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.modal button:hover {
-    background-color: #45a049;
+    font-size: 18px;
 }
 
 .modal-close {
@@ -183,4 +170,46 @@ button[onclick]:hover {
 
 .modal-close:hover {
     color: #000;
+}
+
+/* Colores para los diferentes tipos de mensajes */
+.modal.success {
+    background-color: #4caf50; /* Verde */
+    color: #fff;
+}
+
+.modal.error {
+    background-color: #e74c3c; /* Rojo */
+    color: #fff;
+}
+
+.modal.warning {
+    background-color: #f1c40f; /* Naranja */
+    color: #fff;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+/* Botón para eliminar todos los pads */
+button.delete-all {
+    display: block;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px auto;
+}
+
+button.delete-all:hover {
+    background-color: #c0392b;
 }

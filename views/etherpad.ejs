@@ -15,10 +15,9 @@
         <button type="submit">Crear Pad</button>
     </form>
 
-    <!-- Formulario para eliminar un pad -->
-    <form action="/etherpad/delete/prueba123" method="post">
-        <button type="submit">Eliminar Pad "prueba123"</button>
-    </form>
+
+    <!-- Botón para eliminar todos los pads -->
+    <button id="deleteAllPadsButton" class="delete-all">Eliminar Todos los Pads</button>
 
     <!-- Iframe para mostrar el pad directamente -->
     <h2>Ver y editar Pad</h2>
@@ -38,7 +37,31 @@
     </div>
 
     <script>
+        document.getElementById('viewPadButton').addEventListener('click', async () => {
+            const padID = document.getElementById('padIDInput').value;
+            const iframe = document.getElementById('padFrame');
+
+            if (padID) {
+                try {
+                    const response = await fetch(`/etherpad/check/${padID}`);
+                    const result = await response.json();
+
+                    if (result.success) {
+                        iframe.src = `http://localhost:9001/p/${padID}`; // Asegúrate de que esta URL esté bien formada
+                        showPopup(`El pad con ID '${padID}' se ha cargado.`, 'success');
+                    } else {
+                        showPopup(`El pad con ID '${padID}' no existe.`, 'warning');
+                    }
+                } catch (error) {
+                    console.error('Error al consultar si el pad existe:', error);
+                    showPopup('Ocurrió un error al verificar el pad.', 'error');
+                }
+            } else {
+                showPopup('Introduce un ID de Pad válido', 'error');
+            }
+        });
         const form = document.getElementById('createPadForm');
+        const deleteAllPadsButton = document.getElementById('deleteAllPadsButton');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -52,8 +75,10 @@
                 });
                 const result = await response.json();
                 
-                if (result.success) {
+                if (result.success && result.message === 'El pad se ha creado con éxito.') {
                     showPopup(result.message, 'success');
+                } else if (result.message === 'El pad ya existe.') {
+                    showPopup(result.message, 'warning');
                 } else {
                     showPopup(result.message, 'error');
                 }
@@ -63,50 +88,39 @@
             }
         });
 
-        document.getElementById('viewPadButton').addEventListener('click', async () => {
-            const padID = document.getElementById('padIDInput').value;
-            const iframe = document.getElementById('padFrame');
-            
-            if (padID) {
+        deleteAllPadsButton.addEventListener('click', async () => {
+            if (confirm('¿Estás seguro de que deseas eliminar todos los pads? Esta acción no se puede deshacer.')) {
                 try {
-                    const response = await fetch(`/etherpad/check/${padID}`);
+                    const response = await fetch('/etherpad/deleteAll', { method: 'POST' });
                     const result = await response.json();
-
                     if (result.success) {
-                        iframe.src = `http://localhost:9001/p/${padID}`;
+                        showPopup(result.message, 'success');
                     } else {
-                        showPopup(`El pad con ID '${padID}' no existe.`, 'error');
+                        showPopup(result.message, 'error');
                     }
                 } catch (error) {
-                    console.error('Error al consultar si el pad existe:', error);
-                    showPopup('Ocurrió un error al verificar el pad.', 'error');
+                    console.error('Error al eliminar todos los pads:', error);
+                    showPopup('Ocurrió un error al eliminar los pads.', 'error');
                 }
-            } else {
-                showPopup('Introduce un ID de Pad válido', 'error');
             }
         });
 
         function showPopup(message, type) {
             const modal = document.getElementById('popupModal');
             const popupMessage = document.getElementById('popupMessage');
+
+            // Reiniciar estilos previos
+            modal.classList.remove('success', 'error', 'warning');
+
+            // Asignar el mensaje y tipo de estilo
             popupMessage.textContent = message;
-            
-            // Cambiar color del texto según tipo
-            if (type === 'success') {
-                popupMessage.style.color = '#4caf50'; // Verde
-            } else {
-                popupMessage.style.color = '#e74c3c'; // Rojo
-            }
+            modal.classList.add('show', type); // Añade la clase correspondiente (success, error, warning)
 
-            modal.classList.add('show');
-
-            // Ocultar el popup automáticamente después de 3 segundos
             setTimeout(() => {
                 modal.classList.remove('show');
-            }, 3000);
+            }, 3000); // Eliminar modal después de 3 segundos
         }
 
-        // Cerrar el modal al hacer clic en la "X"
         document.getElementById('closeModal').addEventListener('click', () => {
             document.getElementById('popupModal').classList.remove('show');
         });
