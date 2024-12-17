@@ -4,38 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transcriptor Whisper</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/index.css">
 </head>
 <body>
-    <h1>Transcribe tu archivo de audio</h1>
+    <div class="container">
+        <h1>Transcribe tu archivo de audio</h1>
 
-    <form action="/transcribe" method="POST">
-        <label for="audioPath">Ruta del audio:</label>
-        <input type="text" id="audioPath" name="audioPath" placeholder="Introduce la ruta de tu archivo de audio" required>
+        <form action="/transcribe" method="POST">
+            <label for="audioPath">Ruta del audio:</label>
+            <input type="text" id="audioPath" name="audioPath" placeholder="Introduce la ruta de tu archivo de audio" required>
 
-        <label for="targetData">Datos de los tiempos (JSON):</label>
-        <textarea id="targetData" name="targetData" placeholder='[{"time": 15, "level": 2}, {"time": 7, "level": 3}]' required></textarea>
+            <label for="targetData">Datos de los tiempos (JSON):</label>
+            <textarea id="targetData" name="targetData" placeholder='[{"time": 15, "level": 2}, {"time": 7, "level": 3}]' required></textarea>
 
-        <button type="submit">Transcribir</button>
-    </form>
+            <button type="submit">Transcribir</button>
+        </form>
 
-    <hr>
+        <hr>
 
-    <h2>Transcripción:</h2>
-    <% if (transcription) { %>
-        <div id="transcription-result">
-            <p><strong>Transcripción:</strong></p>
-            <p><%= transcription %></p>
-        </div>
-    <% } %>
+        <h2>Transcripción:</h2>
+        <% if (transcription) { %>
+            <div id="transcription-result">
+                <p><strong>Transcripción:</strong></p>
+                <p><%= transcription %></p>
+            </div>
+        <% } %>
 
-    <hr>
+        <hr>
 
-    <!-- Botón para ir a la vista de Etherpad -->
-    <h2>Acceso a Etherpad</h2>
-    <form action="/etherpad" method="GET">
-        <button type="submit">Ir a Pruebas Etherpad</button>
-    </form>
-
+        <!-- Botón para ir a la vista de Etherpad -->
+        <h2>Acceso a Etherpad</h2>
+        <form action="/etherpad" method="GET">
+            <button type="submit">Ir a Pruebas Etherpad</button>
+        </form>
+    </div>
 </body>
 </html>
