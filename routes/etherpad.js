@@ -25,6 +25,15 @@ router.post('/createWithContent', (req, res) => {
         res.json(response);
     });
 });
+// Ruta para crear un pad con texto
+router.post('/createWithText', (req, res) => {
+    const { padID, text } = req.body;
+
+    etherpadManager.createPadWithText(padID, text, (response) => {
+        res.json(response); 
+    });
+});
+
 //ruta para verificar si un pad existe
 router.get('/check/:padID', (req, res) => {
     const padID = req.params.padID;

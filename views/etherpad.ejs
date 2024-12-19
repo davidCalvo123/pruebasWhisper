@@ -15,7 +15,16 @@
         <button type="submit">Crear Pad</button>
     </form>
 
-
+    <h2>Crear Pad con Texto</h2>
+    <form id="createPadWithTextForm" action="/etherpad/createWithText" method="post">
+        <label for="padIDWithText">ID del Pad:</label>
+        <input type="text" name="padID" id="padIDWithText" placeholder="ID del pad" required>
+    
+        <label for="padText">Texto para insertar (usa *negrita*, **naranja**, ***rojo***):</label>
+        <textarea name="text" id="padText" placeholder="Introduce el texto aquí..." required></textarea>
+    
+        <button type="submit">Crear Pad con Texto</button>
+    </form>
     <!-- Botón para eliminar todos los pads -->
     <button id="deleteAllPadsButton" class="delete-all">Eliminar Todos los Pads</button>
 

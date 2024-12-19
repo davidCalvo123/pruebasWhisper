@@ -8,6 +8,46 @@ const etherpad = api.connect({
     ssl: false,
     rejectUnauthorized: false
 });
+// La función para aplicar los estilos de color con <span style="color:...">
+function formatTextWithColors(inputText) {
+  const regex = /(\*\*\*[^*]+?\*\*\*|\*\*[^*]+?\*\*|\*[^*]+?\*)/g;
+  const formattedText = inputText.replace(regex, (match) => {
+      if (match.startsWith('***')) {
+          const content = match.slice(3, -3).trim(); // Quita los asteriscos y trim()
+          return `<span class="color:red;">${content}</span>`;
+      } else if (match.startsWith('**')) {
+          const content = match.slice(2, -2).trim(); // Quita los asteriscos y trim()
+          return `<span class="color:orange;">${content}</span>`;
+      } else if (match.startsWith('*')) {
+          const content = match.slice(1, -1).trim(); // Quita los asteriscos y trim()
+          return `<span class="color:green;">${content}</span>`;
+      }
+      return match;
+  });
+
+  // Quitar saltos de línea no necesarios y envolver en <p> para Etherpad
+  const cleanedText = formattedText.replace(/\n/g, '').replace(/\s\s+/g, ' ').trim();
+  return `<p>${cleanedText}</p>`;
+}
+
+// La función que crea el pad con texto
+exports.createPadWithText = (padID, text, callback) => {
+  const formattedText = formatTextWithColors(text); // Aquí formateamos el texto antes de insertarlo
+  etherpad.createPad({ padID }, (error, data) => {
+      if (error) {
+          console.error('Error al crear el pad:', error);
+          return callback({ success: false, message: 'No se pudo crear el pad.' });
+      }
+      console.log(formattedText);
+      etherpad.setHTML({ padID, html: formattedText }, (error) => {
+          if (error) {
+              console.error('Error al insertar texto en el pad:', error);
+              return callback({ success: false, message: 'No se pudo insertar el texto.' });
+          }
+          callback({ success: true, message: 'El pad se ha creado con el texto correctamente.' });
+      });
+  });
+};
 exports.createPadWithContent = (padID, content, callback) => {
   console.log(`🟢 Iniciando la creación del pad con ID: ${padID}`);
 
