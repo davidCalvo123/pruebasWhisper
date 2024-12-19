@@ -19,6 +19,18 @@
     <!-- Botón para eliminar todos los pads -->
     <button id="deleteAllPadsButton" class="delete-all">Eliminar Todos los Pads</button>
 
+    <h2>Crear un Pad con Contenido</h2>
+
+    <form id="createPadWithContentForm" action="/etherpad/createWithContent" method="post">
+        <label for="padID">ID del Pad:</label>
+        <input type="text" name="padID" id="padID" placeholder="ID del pad" required>
+    
+        <label for="content">Contenido HTML:</label>
+        <textarea name="content" id="content" placeholder="Escribe aquí tu HTML. Ejemplo: <strong>Texto en negrita</strong>" required></textarea>
+    
+        <button type="submit">Crear Pad con Contenido</button>
+    </form>
+
     <!-- Iframe para mostrar el pad directamente -->
     <h2>Ver y editar Pad</h2>
     <input type="text" id="padIDInput" placeholder="Introduce el ID del Pad" />
@@ -124,6 +136,35 @@
         document.getElementById('closeModal').addEventListener('click', () => {
             document.getElementById('popupModal').classList.remove('show');
         });
+    </script>
+    <script>
+        //script para crea un pad con texto dentro 
+    const form2 = document.getElementById('createPadWithContentForm');
+    
+    form2.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form2);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/etherpad/createWithContent', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert('El pad se ha creado con éxito');
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error al crear el pad:', error);
+            alert('Ocurrió un error inesperado.');
+        }
+    });
+
+
     </script>
 </body>
 </html>

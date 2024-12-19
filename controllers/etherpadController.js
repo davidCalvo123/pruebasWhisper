@@ -8,7 +8,31 @@ const etherpad = api.connect({
     ssl: false,
     rejectUnauthorized: false
 });
+exports.createPadWithContent = (padID, content, callback) => {
+  console.log(`🟢 Iniciando la creación del pad con ID: ${padID}`);
 
+  etherpad.createPad({ padID: padID }, (error, data) => {
+      if (error) {
+          console.error('❌ Error creando el pad:', error);
+          if (error.message.includes('padID does already exist')) {
+              console.warn(`⚠️ El pad ${padID} ya existe.`);
+          }
+          return callback({ success: false, message: 'No se pudo crear el pad. Inténtalo de nuevo más tarde.' });
+      }
+
+      console.log(`✅ Pad creado o ya existente: ${padID}`);
+      
+      // Aquí empieza la parte de establecer el contenido
+      etherpad.setHTML({ padID: padID, html: content }, (error, data) => {
+          if (error) {
+              console.error('❌ Error al establecer el contenido del pad:', error);
+              return callback({ success: false, message: 'No se pudo establecer el contenido del pad.' });
+          }
+          console.log('✅ Contenido HTML establecido:', data);
+          callback({ success: true, message: 'El pad se ha creado con el contenido especificado.' });
+      });
+  });
+};
 // Crear un pad si no existe
 exports.createPadIfNotExists = (id, callback) => {
   etherpad.createPad({ padID: id }, (error, data) => {
