@@ -43,6 +43,10 @@
         <% } %>
 
         <hr>
+        <% if (padID) { %>
+            <h2>Nombre del pad creado:</h2>
+            <p><strong>ID del pad:</strong> <%= padID %></p>
+        <% } %>
 
         <!-- Botón para ir a la vista de Etherpad -->
         <h2>Acceso a Etherpad</h2>
