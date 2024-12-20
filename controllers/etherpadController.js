@@ -153,3 +153,39 @@ exports.deleteAllPads = (callback) => {
       });
   });
 };
+
+//PALABRAS CLAVE START
+exports.evaluateTranscription = (criteria, padID, callback) => {
+  etherpad.getHTML({ padID: padID }, (error, data) => {
+      if (error) {
+          console.error('❌ Error obteniendo la transcripción:', error);
+          return callback({ success: false, message: 'No se pudo obtener la transcripción.' });
+      }
+
+      const htmlContent = data.html;
+      let totalScore = 0;
+      let highlightedText = htmlContent;
+
+      // 🟢 Buscar las palabras clave
+      criteria.forEach(({ word, count, score }) => {
+          const regex = new RegExp(`\\b${word}\\b`, 'gi');
+          const matches = htmlContent.match(regex) || [];
+          const occurrences = matches.length;
+
+          // 🟢 Resaltar la palabra en azul
+          highlightedText = highlightedText.replace(regex, `<span style="background-color: lightblue;">${word}</span>`);
+
+          // 🟢 Calcular la puntuación proporcional
+          const fraction = Math.min(occurrences / count, 1); // No puede superar 1 (es decir, no puede tener más del 100%)
+          const partialScore = fraction * score; // Calcula la puntuación proporcional
+          totalScore += partialScore;
+      });
+
+      // 🟢 Devolver el texto con las palabras resaltadas y la puntuación total
+      callback({
+          success: true,
+          highlightedText,
+          score: totalScore.toFixed(2) // Redondear a 2 decimales
+      });
+  });
+};
