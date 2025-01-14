@@ -8,29 +8,14 @@ const etherpad = api.connect({
     ssl: false,
     rejectUnauthorized: false
 });
-// La función para aplicar los estilos de color con <span style="color:...">
-function formatTextWithColors(inputText) {
-  const regex = /(\*\*\*[^*]+?\*\*\*|\*\*[^*]+?\*\*|\*[^*]+?\*)/g;
-  const formattedText = inputText.replace(regex, (match) => {
-      if (match.startsWith('***')) {
-          const content = match.slice(3, -3).trim(); // Quita los asteriscos y trim()
-          return `<span class="color:red;">${content}</span>`;
-      } else if (match.startsWith('**')) {
-          const content = match.slice(2, -2).trim(); // Quita los asteriscos y trim()
-          return `<span class="color:orange;">${content}</span>`;
-      } else if (match.startsWith('*')) {
-          const content = match.slice(1, -1).trim(); // Quita los asteriscos y trim()
-          return `<span class="color:green;">${content}</span>`;
-      }
-      return match;
-  });
 
-  // Quitar saltos de línea no necesarios y envolver en <p> para Etherpad
-  const cleanedText = formattedText.replace(/\n/g, '').replace(/\s\s+/g, ' ').trim();
-  return `<p>${cleanedText}</p>`;
-}
 
-// La función que crea el pad con texto
+
+
+
+// La llamada la hace el transcribe-controller
+// Recibe, el texto de la transcripcion para crear un etherpad con ello
+
 exports.createPadWithText = (padID, text, callback) => {
   const formattedText = formatTextWithColors(text); // Aquí formateamos el texto antes de insertarlo
   etherpad.createPad({ padID }, (error, data) => {
@@ -48,31 +33,59 @@ exports.createPadWithText = (padID, text, callback) => {
       });
   });
 };
-exports.createPadWithContent = (padID, content, callback) => {
-  console.log(`🟢 Iniciando la creación del pad con ID: ${padID}`);
 
-  etherpad.createPad({ padID: padID }, (error, data) => {
-      if (error) {
-          console.error('❌ Error creando el pad:', error);
-          if (error.message.includes('padID does already exist')) {
-              console.warn(`⚠️ El pad ${padID} ya existe.`);
-          }
-          return callback({ success: false, message: 'No se pudo crear el pad. Inténtalo de nuevo más tarde.' });
+
+// La función para sustituir los asteriscos del script de whisper para aplicar los estilos de color con <span style="color:...">
+//la llama el metodo que tiene arriba
+function formatTextWithColors(inputText) {
+  const regex = /(\*\*\*[^*]+?\*\*\*|\*\*[^*]+?\*\*|\*[^*]+?\*)/g;
+  const formattedText = inputText.replace(regex, (match) => {
+      if (match.startsWith('***')) {
+          const content = match.slice(3, -3).trim(); 
+          return `<span class="color:red;">${content}</span>`;
+      } else if (match.startsWith('**')) {
+          const content = match.slice(2, -2).trim(); 
+          return `<span class="color:orange;">${content}</span>`;
+      } else if (match.startsWith('*')) {
+          const content = match.slice(1, -1).trim(); 
+          return `<span class="color:green;">${content}</span>`;
       }
-
-      console.log(`✅ Pad creado o ya existente: ${padID}`);
-      
-      // Aquí empieza la parte de establecer el contenido
-      etherpad.setHTML({ padID: padID, html: content }, (error, data) => {
-          if (error) {
-              console.error('❌ Error al establecer el contenido del pad:', error);
-              return callback({ success: false, message: 'No se pudo establecer el contenido del pad.' });
-          }
-          console.log('✅ Contenido HTML establecido:', data);
-          callback({ success: true, message: 'El pad se ha creado con el contenido especificado.' });
-      });
+      return match;
   });
-};
+  const cleanedText = formattedText.replace(/\n/g, '').replace(/\s\s+/g, ' ').trim();
+  return `<p>${cleanedText}</p>`;
+}
+
+
+
+
+// exports.createPadWithContent = (padID, content, callback) => {
+//   console.log(`Iniciando la creación del pad con ID: ${padID}`);
+
+//   etherpad.createPad({ padID: padID }, (error, data) => {
+//       if (error) {
+//           console.error('Error creando el pad:', error);
+//           if (error.message.includes('padID does already exist')) {
+//               console.warn(`⚠️ El pad ${padID} ya existe.`);
+//           }
+//           return callback({ success: false, message: 'No se pudo crear el pad. Inténtalo de nuevo más tarde.' });
+//       }
+
+//       console.log(`Pad creado o ya existente: ${padID}`);
+      
+//       // Aquí empieza la parte de establecer el contenido
+//       etherpad.setHTML({ padID: padID, html: content }, (error, data) => {
+//           if (error) {
+//               console.error('❌ Error al establecer el contenido del pad:', error);
+//               return callback({ success: false, message: 'No se pudo establecer el contenido del pad.' });
+//           }
+//           console.log('Contenido HTML establecido:', data);
+//           callback({ success: true, message: 'El pad se ha creado con el contenido especificado.' });
+//       });
+//   });
+// };
+
+
 // Crear un pad si no existe
 exports.createPadIfNotExists = (id, callback) => {
   etherpad.createPad({ padID: id }, (error, data) => {
@@ -120,6 +133,8 @@ exports.deletePad = (id, callback) => {
     });
 };
 
+
+
 // Eliminar todos los pads
 exports.deleteAllPads = (callback) => {
   etherpad.listAllPads((error, data) => {
@@ -154,11 +169,16 @@ exports.deleteAllPads = (callback) => {
   });
 };
 
+
+
+
+
+
 //PALABRAS CLAVE START
 exports.evaluateTranscription = (criteria, padID, callback) => {
   etherpad.getHTML({ padID: padID }, (error, data) => {
       if (error) {
-          console.error('❌ Error obteniendo la transcripción:', error);
+          console.error(' Error obteniendo la transcripción:', error);
           return callback({ success: false, message: 'No se pudo obtener la transcripción.' });
       }
 
@@ -166,22 +186,22 @@ exports.evaluateTranscription = (criteria, padID, callback) => {
       let totalScore = 0;
       let highlightedText = htmlContent;
 
-      // 🟢 Buscar las palabras clave
+      //  Buscar las palabras clave
       criteria.forEach(({ word, count, score }) => {
           const regex = new RegExp(`\\b${word}\\b`, 'gi');
           const matches = htmlContent.match(regex) || [];
           const occurrences = matches.length;
 
-          // 🟢 Resaltar la palabra en azul
+          //  Resaltar la palabra en azul
           highlightedText = highlightedText.replace(regex, `<span style="background-color: lightblue;">${word}</span>`);
 
-          // 🟢 Calcular la puntuación proporcional
+          // Calcular la puntuación proporcional
           const fraction = Math.min(occurrences / count, 1); // No puede superar 1 (es decir, no puede tener más del 100%)
           const partialScore = fraction * score; // Calcula la puntuación proporcional
           totalScore += partialScore;
       });
 
-      // 🟢 Devolver el texto con las palabras resaltadas y la puntuación total
+      // Devolver el texto con las palabras resaltadas y la puntuación total
       callback({
           success: true,
           highlightedText,
