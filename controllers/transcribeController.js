@@ -1,10 +1,15 @@
 const transcribeModel = require('../models/transcribeModel');
 const etherpadManager = require('../controllers/etherpadController');
 
+//Carga la página 1 de mi archivo
 exports.showForm = (req, res) => {
     res.render('index', { transcription: null, padID: null }); 
 };
 
+
+//controler al que se le llama cuando se pulsa el boton de transcribir
+//llama a transcribeaudio de transcribeModel mandando url y levels
+//Recibe el texto trascrito de whisper y opera con él (crea un etherpad y mas cosas)
 exports.transcribe = (req, res) => {
     const { audioPath, targetData } = req.body;
 

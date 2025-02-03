@@ -15,17 +15,23 @@ router.post('/create', (req, res) => {
         res.json(response); 
     });
 });
-router.post('/createWithContent', (req, res) => {
-    const { padID, content } = req.body;
 
-    if (!padID || !content) {
-        return res.status(400).json({ success: false, message: 'Se requiere un padID y un contenido' });
-    }
 
-    etherpadManager.createPadWithContent(padID, content, (response) => {
-        res.json(response);
-    });
-});
+ //router.post('/createWithContent', (req, res) => {
+//     const { padID, content } = req.body;
+
+//     if (!padID || !content) {
+//         return res.status(400).json({ success: false, message: 'Se requiere un padID y un contenido' });
+//     }
+
+//     etherpadManager.createPadWithContent(padID, content, (response) => {
+//         res.json(response);
+//     });
+// });
+
+
+
+
 // Ruta para crear un pad con texto
 router.post('/createWithText', (req, res) => {
     const { padID, text } = req.body;
