@@ -2,7 +2,7 @@ const { spawn } = require("child_process");
 
 //Recibe el path del audio y target data
 //ejecuta el script de python para transcribir con las marcas temporales
-//devuelve una promesa que se integra en l a parte de codigo donde se le habia llamado 
+//devuelve una promesa que se integra en la parte de codigo donde se le habia llamado 
 exports.transcribeAudio = (audioPath, targetData) => {
     return new Promise((resolve, reject) => {
         const pythonProcess = spawn("python3", ["pruebasWhisper.py"]);
