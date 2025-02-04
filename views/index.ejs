@@ -10,6 +10,9 @@
     <div class="container">
         <h1>Transcribe tu archivo de audio</h1>
 
+
+
+        <!-- FORMULARIO PARA TRANSCRIBIR ARCHIVOS -->
         <form id="transcribeForm" action="/transcribe" method="POST">
             <!-- Input de la ruta del archivo -->
             <label for="audioPath">Ruta del audio:</label>
@@ -20,7 +23,7 @@
             <div id="timeLevelInputs">
                 <div class="time-level-row">
                     <input type="number" name="time[]" placeholder="Tiempo (segundos)" required min="0" step="1">
-                    <input type="number" name="level[]" placeholder="Nivel (1-5)" required min="1" max="5">
+                    <input type="number" name="level[]" placeholder="Nivel (1-3)" required min="1" max="5">
                     <button type="button" class="remove-row">❌</button>
                 </div>
             </div>
@@ -31,8 +34,10 @@
             <!-- Botón para enviar el formulario -->
             <button type="submit">Transcribir</button>
         </form>
-
         <hr>
+        <!--  FIN FORMULARIO PARA TRANSCRIBIR ARCHIVOS -->
+
+
 
         <h2>Transcripción:</h2>
         <% if (transcription) { %>

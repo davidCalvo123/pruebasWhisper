@@ -14,6 +14,8 @@
         <input type="text" name="padID" id="padID" placeholder="ID del pad" required>
         <button type="submit">Crear Pad</button>
     </form>
+    <!-- FIN Formulario para crear un pad -->
+
 
     <!--<h2>Crear Pad con Texto</h2>
     <form id="createPadWithTextForm" action="/etherpad/createWithText" method="post">
@@ -42,9 +44,8 @@
 
     
     <!--INICIO TABLA DE EVALUACION-->
-    <h1>Evaluación de la Transcripción</h1>
-
-    <!-- Tabla de criterios -->
+     <h1>Evaluación de la Transcripción</h1>
+     <!-- Tabla de criterios -->
     <h2>Criterios de Evaluación</h2>
     <table id="criteriaTable">
         <thead>
@@ -58,14 +59,11 @@
         <tbody></tbody>
     </table>
     <button id="addCriteriaButton">➕ Añadir Criterio</button>
-
     <!-- Botón de evaluación -->
     <button id="evaluateButton">📊 Evaluar Transcripción</button>
-
     <!-- Área de transcripción -->
     <h2>Transcripción</h2>
     <div id="transcriptionArea" class="transcription-area"></div>
-
     <!-- Resultado de la evaluación -->
     <h2>Resultado de la Evaluación</h2>
     <p id="finalScore">Puntuación: <strong>0/10</strong></p>
@@ -180,7 +178,8 @@
             document.getElementById('popupModal').classList.remove('show');
         });
     </script>
-    <script>
+    
+    <!--<script>
         //script para crea un pad con texto dentro 
     const form2 = document.getElementById('createPadWithContentForm');
     
@@ -208,8 +207,11 @@
     });
 
 
-    </script>
-    <script>
+    </script>-->
+   
+   
+   
+   <script>
         //PALABRAS CLAVE START
         // Variables
         const criteriaTable = document.getElementById('criteriaTable').querySelector('tbody');
@@ -219,7 +221,7 @@
         const finalScoreElement = document.getElementById('finalScore');
         
 
-        // 🟢 Función para añadir una fila a la tabla de criterios
+        //  Función para añadir una fila a la tabla de criterios
         addCriteriaButton.addEventListener('click', () => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -231,14 +233,14 @@
             criteriaTable.appendChild(row);
         });
 
-        // 🟢 Eliminar una fila de la tabla
+        //  Eliminar una fila de la tabla
         criteriaTable.addEventListener('click', (event) => {
             if (event.target.classList.contains('delete-row-button')) {
                 event.target.parentElement.parentElement.remove();
             }
         });
 
-        // 🟢 Botón de evaluación
+        //  Botón de evaluación
         evaluateButton.addEventListener('click', async () => {
             const criteria = Array.from(criteriaTable.querySelectorAll('tr')).map(row => {
                 return {
