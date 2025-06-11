@@ -13,6 +13,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 - Sistema Unix (Linux/macOS) o WSL en Windows (para ejecutar `bin/run.sh` de Etherpad)
 
 ## 📁 Estructura del proyecto
+```bash
 PRUEBASWHISPER/
 ├── controllers/
 │   ├── etherpadController.js
@@ -34,6 +35,7 @@ PRUEBASWHISPER/
 ├── package.json
 ├── package-lock.json
 └── nodemon.json
+```
 ---
 
 ## 🛠️ Instalación y configuración
@@ -91,5 +93,5 @@ Puedes lanzar el entorno completo (servidor Node + Etherpad) con:
 npm run dev
 ```
 Esto ejecutará de forma concurrente:
-•	El servidor principal (app.js)
-•	Etherpad (etherpad-lite/bin/run.sh)
+	•	El servidor principal (app.js)
+	•	Etherpad (etherpad-lite/bin/run.sh)
