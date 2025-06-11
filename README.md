@@ -13,3 +13,83 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 - Sistema Unix (Linux/macOS) o WSL en Windows (para ejecutar `bin/run.sh` de Etherpad)
 
 ## 📁 Estructura del proyecto
+PRUEBASWHISPER/
+├── controllers/
+│   ├── etherpadController.js
+│   └── transcribeController.js
+├── etherpad-lite/               ← Carpeta clonada de Etherpad TENGO QUE COMPROBAR QUE PASA CON LOS PLUGINGS
+├── public/
+│   └── etherpad.css
+│   └── index.css
+├── routes/
+│   ├── etherpad.js
+│   └── transcribeRoutes.js
+├── views/
+│   ├── etherpad.ejs
+│   └── index.ejs
+├── Transcripciones/            ← Carpeta donde se guardan las transcripciones
+├── pruebasWhisper.py           ← Script de transcripción
+├── app.js                      ← Archivo principal del servidor
+├── config.js                   ← Configuración Etherpad
+├── package.json
+├── package-lock.json
+└── nodemon.json
+---
+
+## 🛠️ Instalación y configuración
+
+### 1. Clona el proyecto
+
+```bash
+git clone https://github.com/tu-usuario/proyecto-pruebas.git
+cd proyecto-pruebas
+```
+
+2. Instala las dependencias
+```bash
+npm install
+```
+3. Instala Whisper en Python
+```bash
+pip install git+https://github.com/openai/whisper.git
+```
+Asegúrate de tener también ffmpeg instalado para procesar los audios.
+
+📝 Configuración de Etherpad
+Modifica la sección correspondiente:
+```bash
+"dbType" : "mysql",
+"dbSettings" : {
+  "user"    : "etherpad_user",
+  "host"    : "localhost",
+  "password": "xxx",
+  "database": "xx",
+  "charset" : "utf8mb4"}
+"authenticationMethod": "apikey"
+```
+3. Añade el archivo APIKEY.txt
+
+Coloca un archivo llamado APIKEY.txt dentro de etherpad-lite/ con la clave correspondiente, por ejemplo:
+```bash
+ef4f7a8e7898cecaa0038e03faf63e9f8422a51e799919fb7036046ef1d5fb90
+```
+🧠 Configuración del servidor
+
+En config.js:
+```bash
+module.exports = {
+  etherpad: {
+    enabled: true,
+    server: 'localhost',
+    port: 9001,
+    apiKey: 'TU_API_KEY'}};
+```
+🚀 Ejecución del entorno
+
+Puedes lanzar el entorno completo (servidor Node + Etherpad) con:
+```bash
+npm run dev
+```
+Esto ejecutará de forma concurrente:
+•	El servidor principal (app.js)
+•	Etherpad (etherpad-lite/bin/run.sh)
