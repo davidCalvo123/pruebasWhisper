@@ -16,7 +16,7 @@ const etherpad = api.connect({
 // La llamada la hace el transcribe-controller
 // Recibe, el texto de la transcripcion para crear un etherpad con ello
 
-exports.createPadWithText = (padID, text, callback) => {
+exports.createLocalPadWithText = (padID, text, callback) => {
   const formattedText = formatTextWithColors(text); // Aquí formateamos el texto antes de insertarlo
   etherpad.createPad({ padID }, (error, data) => {
       if (error) {
@@ -76,7 +76,7 @@ function formatTextWithColors(inputText) {
 //       // Aquí empieza la parte de establecer el contenido
 //       etherpad.setHTML({ padID: padID, html: content }, (error, data) => {
 //           if (error) {
-//               console.error('❌ Error al establecer el contenido del pad:', error);
+//               console.error('Error al establecer el contenido del pad:', error);
 //               return callback({ success: false, message: 'No se pudo establecer el contenido del pad.' });
 //           }
 //           console.log('Contenido HTML establecido:', data);
