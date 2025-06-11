@@ -47,17 +47,25 @@ git clone https://github.com/tu-usuario/proyecto-pruebas.git
 cd proyecto-pruebas
 ```
 
-2. Instala las dependencias
+### 2. Instala las dependencias
 ```bash
 npm install
 ```
-3. Instala Whisper en Python
+### 3. Instala Whisper en Python
 ```bash
 pip install git+https://github.com/openai/whisper.git
 ```
 Asegúrate de tener también ffmpeg instalado para procesar los audios.
 
-📝 Configuración de Etherpad
+### 4. Configura la base de datos de Etherpad
+Primero, accede a MySQL y crea la base de datos con las credenciales que usarás en settings.json:(Tengo quemirar esto)
+```bash
+CREATE DATABASE (Nombre_de_la_BD DEFAULT) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'etherpad_user'@'localhost' IDENTIFIED BY 'Etherpad!2024';
+GRANT ALL PRIVILEGES ON etherpad_db.* TO 'etherpad_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+### 5. 📝 Configuración de Etherpad
 Modifica la sección correspondiente:
 ```bash
 "dbType" : "mysql",
@@ -69,13 +77,13 @@ Modifica la sección correspondiente:
   "charset" : "utf8mb4"}
 "authenticationMethod": "apikey"
 ```
-3. Añade el archivo APIKEY.txt
+### 6. Añade el archivo APIKEY.txt
 
 Coloca un archivo llamado APIKEY.txt dentro de etherpad-lite/ con la clave correspondiente, por ejemplo:
 ```bash
 ef4f7a8e7898cecaa0038e03faf63e9f8422a51e799919fb7036046ef1d5fb90
 ```
-🧠 Configuración del servidor
+### 7. 🧠 Configuración del servidor
 
 En config.js:
 ```bash
@@ -86,12 +94,12 @@ module.exports = {
     port: 9001,
     apiKey: 'TU_API_KEY'}};
 ```
-🚀 Ejecución del entorno
+### 8. 🚀 Ejecución del entorno
 
 Puedes lanzar el entorno completo (servidor Node + Etherpad) con:
 ```bash
 npm run dev
 ```
 Esto ejecutará de forma concurrente:
-	•	El servidor principal (app.js)
-	•	Etherpad (etherpad-lite/bin/run.sh)
+- El servidor principal (app.js)
+- Etherpad (etherpad-lite/bin/run.sh)
