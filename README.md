@@ -7,8 +7,14 @@ Este proyecto está diseñado como entorno de pruebas para integrar **transcripc
 Antes de ejecutar el proyecto, asegúrate de tener instalado:
 
 - [Node.js](https://nodejs.org/) (versión recomendada: ≥14)
+- [npm](https://www.npmjs.com/)
 - [MySQL](https://www.mysql.com/) (con base de datos creada)
 - [Python](https://www.python.org/) (≥3.8)
+- [Git](https://git-scm.com/)
+- [FFmpeg](https://ffmpeg.org/download.html)
+- [Whisper (openai-whisper)](https://github.com/openai/whisper)
+
+
 - `pip install openai-whisper` (o tu entorno con Whisper instalado)
 - Sistema Unix (Linux/macOS) o WSL en Windows (para ejecutar `bin/run.sh` de Etherpad)
 
