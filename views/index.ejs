@@ -10,17 +10,34 @@
     <div class="container">
         <h1>Transcribe tu archivo de audio</h1>
 
-        <form action="/transcribe" method="POST">
+
+
+        <!-- FORMULARIO PARA TRANSCRIBIR ARCHIVOS -->
+        <form id="transcribeForm" action="/transcribe" method="POST">
+            <!-- Input de la ruta del archivo -->
             <label for="audioPath">Ruta del audio:</label>
             <input type="text" id="audioPath" name="audioPath" placeholder="Introduce la ruta de tu archivo de audio" required>
 
-            <label for="targetData">Datos de los tiempos (JSON):</label>
-            <textarea id="targetData" name="targetData" placeholder='[{"time": 15, "level": 2}, {"time": 7, "level": 3}]' required></textarea>
+            <!-- Contenedor de los inputs de tiempo y nivel -->
+            <label for="timeLevelInputs">Tiempos y Niveles:</label>
+            <div id="timeLevelInputs">
+                <div class="time-level-row">
+                    <input type="number" name="time[]" placeholder="Tiempo (segundos)" required min="0" step="1">
+                    <input type="number" name="level[]" placeholder="Nivel (1-3)" required min="1" max="5">
+                    <button type="button" class="remove-row">❌</button>
+                </div>
+            </div>
 
+            <!-- Botón para añadir nuevos inputs de tiempo y nivel -->
+            <button type="button" id="addRowButton">Agregar Tiempo/Nivel</button>
+
+            <!-- Botón para enviar el formulario -->
             <button type="submit">Transcribir</button>
         </form>
-
         <hr>
+        <!--  FIN FORMULARIO PARA TRANSCRIBIR ARCHIVOS -->
+
+
 
         <h2>Transcripción:</h2>
         <% if (transcription) { %>
@@ -31,6 +48,10 @@
         <% } %>
 
         <hr>
+        <% if (padID) { %>
+            <h2>Nombre del pad creado:</h2>
+            <p><strong>ID del pad:</strong> <%= padID %></p>
+        <% } %>
 
         <!-- Botón para ir a la vista de Etherpad -->
         <h2>Acceso a Etherpad</h2>
@@ -38,5 +59,54 @@
             <button type="submit">Ir a Pruebas Etherpad</button>
         </form>
     </div>
+
+    <script>
+        const form = document.getElementById('transcribeForm');
+        const addRowButton = document.getElementById('addRowButton');
+        const timeLevelInputs = document.getElementById('timeLevelInputs');
+
+        // Agrega una nueva fila de tiempo y nivel
+        addRowButton.addEventListener('click', () => {
+            const newRow = document.createElement('div');
+            newRow.classList.add('time-level-row');
+            newRow.innerHTML = `
+                <input type="number" name="time[]" placeholder="Tiempo (segundos)" required min="0" step="1">
+                <input type="number" name="level[]" placeholder="Nivel (1-5)" required min="1" max="5">
+                <button type="button" class="remove-row">❌</button>
+            `;
+            timeLevelInputs.appendChild(newRow);
+        });
+
+        // Elimina una fila de tiempo y nivel
+        timeLevelInputs.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-row')) {
+                const row = event.target.parentElement;
+                timeLevelInputs.removeChild(row);
+            }
+        });
+
+        // Convierte los tiempos y niveles a JSON antes de enviar el formulario
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            const times = Array.from(document.querySelectorAll('input[name="time[]"]')).map(input => Number(input.value));
+            const levels = Array.from(document.querySelectorAll('input[name="level[]"]')).map(input => Number(input.value));
+            
+            const targetData = times.map((time, index) => ({
+                time: time,
+                level: levels[index]
+            }));
+
+            // Crear un campo oculto con el JSON que se enviará al backend
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'targetData';
+            hiddenInput.value = JSON.stringify(targetData);
+
+            form.appendChild(hiddenInput);
+            form.submit();
+        });
+       
+    </script>
 </body>
 </html>

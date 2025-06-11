@@ -14,10 +14,63 @@
         <input type="text" name="padID" id="padID" placeholder="ID del pad" required>
         <button type="submit">Crear Pad</button>
     </form>
+    <!-- FIN Formulario para crear un pad -->
 
 
-    <!-- Botón para eliminar todos los pads -->
+    <!--<h2>Crear Pad con Texto</h2>
+    <form id="createLocalPadWithTextForm" action="/etherpad/createWithText" method="post">
+        <label for="padIDWithText">ID del Pad:</label>
+        <input type="text" name="padID" id="padIDWithText" placeholder="ID del pad" required>
+    
+        <label for="padText">Texto para insertar (usa *negrita*, **naranja**, ***rojo***):</label>
+        <textarea name="text" id="padText" placeholder="Introduce el texto aquí..." required></textarea>
+    
+        <button type="submit">Crear Pad con Texto</button>
+    </form>
+     Botón para eliminar todos los pads 
     <button id="deleteAllPadsButton" class="delete-all">Eliminar Todos los Pads</button>
+
+    <h2>Crear un Pad con Contenido</h2>
+
+    <form id="createPadWithContentForm" action="/etherpad/createWithContent" method="post">
+        <label for="padID">ID del Pad:</label>
+        <input type="text" name="padID" id="padID" placeholder="ID del pad" required>
+    
+        <label for="content">Contenido HTML:</label>
+        <textarea name="content" id="content" placeholder="Escribe aquí tu HTML. Ejemplo: <strong>Texto en negrita</strong>" required></textarea>
+    
+        <button type="submit">Crear Pad con Contenido</button>
+    </form>-->
+
+    
+    <!--INICIO TABLA DE EVALUACION-->
+     <h1>Evaluación de la Transcripción</h1>
+     <!-- Tabla de criterios -->
+    <h2>Criterios de Evaluación</h2>
+    <table id="criteriaTable">
+        <thead>
+            <tr>
+                <th>Palabra</th>
+                <th>Cantidad Mínima</th>
+                <th>Puntuación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <button id="addCriteriaButton">Añadir Criterio</button>
+    <!-- Botón de evaluación -->
+    <button id="evaluateButton">Evaluar Transcripción</button>
+    <!-- Área de transcripción -->
+    <h2>Transcripción</h2>
+    <div id="transcriptionArea" class="transcription-area"></div>
+    <!-- Resultado de la evaluación -->
+    <h2>Resultado de la Evaluación</h2>
+    <p id="finalScore">Puntuación: <strong>0/10</strong></p>
+    <!--FIN TABLA DE EVALUACION-->
+
+
+
 
     <!-- Iframe para mostrar el pad directamente -->
     <h2>Ver y editar Pad</h2>
@@ -123,6 +176,91 @@
 
         document.getElementById('closeModal').addEventListener('click', () => {
             document.getElementById('popupModal').classList.remove('show');
+        });
+    </script>
+    
+    <!--<script>
+        //script para crea un pad con texto dentro 
+    const form2 = document.getElementById('createPadWithContentForm');
+    
+    form2.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form2);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/etherpad/createWithContent', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert('El pad se ha creado con éxito');
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error al crear el pad:', error);
+            alert('Ocurrió un error inesperado.');
+        }
+    });
+
+
+    </script>-->
+   
+   
+   
+   <script>
+        //PALABRAS CLAVE START
+        // Variables
+        const criteriaTable = document.getElementById('criteriaTable').querySelector('tbody');
+        const addCriteriaButton = document.getElementById('addCriteriaButton');
+        const evaluateButton = document.getElementById('evaluateButton');
+        const transcriptionArea = document.getElementById('transcriptionArea');
+        const finalScoreElement = document.getElementById('finalScore');
+        
+
+        //  Función para añadir una fila a la tabla de criterios
+        addCriteriaButton.addEventListener('click', () => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="text" class="word-input" placeholder="Palabra"></td>
+                <td><input type="number" class="count-input" placeholder="Cantidad" min="1"></td>
+                <td><input type="number" class="score-input" placeholder="Puntuación" min="0" max="10"></td>
+                <td><button class="delete-row-button">❌</button></td>
+            `;
+            criteriaTable.appendChild(row);
+        });
+
+        //  Eliminar una fila de la tabla
+        criteriaTable.addEventListener('click', (event) => {
+            if (event.target.classList.contains('delete-row-button')) {
+                event.target.parentElement.parentElement.remove();
+            }
+        });
+
+        //  Botón de evaluación
+        evaluateButton.addEventListener('click', async () => {
+            const criteria = Array.from(criteriaTable.querySelectorAll('tr')).map(row => {
+                return {
+                    word: row.querySelector('.word-input').value,
+                    count: parseInt(row.querySelector('.count-input').value, 10) || 0,
+                    score: parseFloat(row.querySelector('.score-input').value, 10) || 0
+                };
+            });
+            const padID = document.getElementById('padIDInput').value;
+            //const response = await fetch(`/etherpad/check/${padID}`);
+            const response = await fetch(`/etherpad/evaluate/${padID}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ criteria })
+            });
+
+            const result = await response.json();
+
+            transcriptionArea.innerHTML = result.highlightedText;
+            finalScoreElement.innerHTML = `Puntuación: <strong>${result.score}/10</strong>`;
         });
     </script>
 </body>

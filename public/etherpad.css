@@ -1,14 +1,29 @@
 /* --- Estilo general de la página --- */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+* {
     margin: 0;
     padding: 0;
-    color: #333;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    color: #2c3e50;
+    line-height: 1.6;
 }
 
 h1, h2 {
     text-align: center;
+    color: #34495e;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
 }
 
 form {
@@ -17,44 +32,60 @@ form {
     margin-top: 20px;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
     padding: 10px;
-    width: 200px;
-    border: 1px solid #ccc;
+    width: 250px;
+    border: 1px solid #bdc3c7;
     border-radius: 5px;
+    margin-right: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+input[type="text"]:focus, 
+input[type="number"]:focus {
+    border-color: #3498db;
+    outline: none;
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #3498db;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     margin-left: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    transform: translateY(2px);
 }
 
 iframe {
-    border: 1px solid #ccc;
+    border: 2px solid #bdc3c7;
     border-radius: 5px;
 }
 
 button[onclick] {
-    background-color: #007bff;
+    background-color: #3498db;
 }
 
 button[onclick]:hover {
-    background-color: #0056b3;
+    background-color: #2980b9;
 }
 
 #padContainer {
     margin-top: 20px;
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
+    justify-content: center;
 }
 
 iframe#padFrame {
@@ -64,32 +95,27 @@ iframe#padFrame {
 
 input#padID, input#padIDInput {
     padding: 10px;
-    width: 200px;
-    border: 1px solid #ccc;
+    width: 250px;
+    border: 1px solid #bdc3c7;
     border-radius: 5px;
-    margin-right: 10px;
+    transition: all 0.3s ease-in-out;
 }
 
-/* --- Estilo de los elementos debajo de "Ver y editar Pad" --- */
-#padIDInput, 
-#viewPadButton {
-    display: inline-block;
-    margin-bottom: 20px;
+input#padID:focus, 
+input#padIDInput:focus {
+    border-color: #3498db;
 }
 
 #padIDInput {
     display: inline-block;
     text-align: center;
-    width: 300px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    margin-bottom: 20px;
 }
 
 #viewPadButton {
     display: inline-block;
     margin-top: 10px;
-    background-color: #4caf50;
+    background-color: #2ecc71;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -98,10 +124,9 @@ input#padID, input#padIDInput {
 }
 
 #viewPadButton:hover {
-    background-color: #45a049;
+    background-color: #27ae60;
 }
 
-/* Centra todos los elementos debajo de "Ver y editar Pad" */
 .pad-container {
     display: flex;
     justify-content: center;
@@ -120,7 +145,7 @@ button[onclick] {
 }
 
 button[onclick] {
-    background-color: #007bff;
+    background-color: #3498db;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
@@ -129,24 +154,23 @@ button[onclick] {
 }
 
 button[onclick]:hover {
-    background-color: #0056b3;
+    background-color: #2980b9;
 }
 
-/* --- Estilo del modal (popup) --- */
 .modal {
-    display: none; /* Ocultar inicialmente */
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    background-color: #fff;
+    width: 350px;
+    background-color: #ecf0f1;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    text-align: center;
     animation: fadeIn 0.3s ease-out;
+    text-align: center;
 }
 
 .modal.show {
@@ -154,8 +178,7 @@ button[onclick]:hover {
 }
 
 .modal h2 {
-    margin-top: 0;
-    font-size: 18px;
+    margin-bottom: 15px;
 }
 
 .modal-close {
@@ -172,19 +195,18 @@ button[onclick]:hover {
     color: #000;
 }
 
-/* Colores para los diferentes tipos de mensajes */
 .modal.success {
-    background-color: #4caf50; /* Verde */
+    background-color: #2ecc71;
     color: #fff;
 }
 
 .modal.error {
-    background-color: #e74c3c; /* Rojo */
+    background-color: #e74c3c;
     color: #fff;
 }
 
 .modal.warning {
-    background-color: #f1c40f; /* Naranja */
+    background-color: #f39c12;
     color: #fff;
 }
 
@@ -198,9 +220,8 @@ button[onclick]:hover {
         transform: translate(-50%, -50%) scale(1);
     }
 }
-/* Botón para eliminar todos los pads */
+
 button.delete-all {
-    display: block;
     background-color: #e74c3c;
     color: white;
     border: none;
@@ -212,4 +233,105 @@ button.delete-all {
 
 button.delete-all:hover {
     background-color: #c0392b;
+}
+
+/* --- Tabla de criterios de evaluación --- */
+table#criteriaTable {
+    width: 90%;
+    margin: 0 auto 20px;
+    border-collapse: collapse;
+}
+
+table#criteriaTable th, 
+table#criteriaTable td {
+    border: 1px solid #bdc3c7;
+    padding: 10px;
+    text-align: center;
+}
+
+table#criteriaTable th {
+    background-color: #2c3e50;
+    color: white;
+}
+
+table#criteriaTable td input {
+    width: 80%;
+    padding: 5px;
+    text-align: center;
+}
+
+table#criteriaTable td button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+table#criteriaTable td button:hover {
+    background-color: #c0392b;
+}
+
+button#addCriteriaButton {
+    display: block;
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px auto;
+    font-size: 1rem;
+}
+
+button#addCriteriaButton:hover {
+    background-color: #9b59b6;
+}
+
+button#evaluateButton {
+    display: block;
+    background-color: #e67e22;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 20px auto;
+    transition: background 0.3s ease-in-out;
+}
+
+button#evaluateButton:hover {
+    background-color: #d35400;
+}
+
+.transcription-area {
+    width: 90%;
+    margin: 20px auto;
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+.transcription-area span {
+    background-color: #3498db;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+#finalScore {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
+#finalScore strong {
+    color: #2ecc71;
 }
