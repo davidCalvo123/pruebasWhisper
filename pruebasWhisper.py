@@ -3,6 +3,7 @@ import sys
 import whisper
 import os
 from datetime import datetime
+import warnings
 
 MODEL_NAME = "medium"
 
@@ -82,6 +83,8 @@ def transcribe_audio_with_multiple_keywords(audio_file, target_data):
     return highlighted_text
 
 def main():
+    warnings.simplefilter("always")
+    warnings.showwarning = lambda msg, *args, **kwargs: print(f"WARNING: {msg}", file=sys.stderr)
     if not sys.stdin.isatty():  # Si recibe datos desde stdin
         input_data = json.loads(sys.stdin.read())
         audio_path = input_data["audio_path"]

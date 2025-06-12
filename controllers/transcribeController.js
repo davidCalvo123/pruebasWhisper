@@ -44,7 +44,7 @@ exports.transcribe = (req, res) => {
 //devuelve una promesa que se integra en la parte de codigo donde se le habia llamado 
 function transcribeAudio(audioPath, targetData) {
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn("/usr/bin/python3", ["pruebasWhisper.py"]);
+        const pythonProcess = spawn("/usr/bin/python3", ["pruebasWhisper.py"]); // sustituir  "/usr/bin/python3" en Windows por "python"
 
         const input = JSON.stringify({
             audio_path: audioPath,
