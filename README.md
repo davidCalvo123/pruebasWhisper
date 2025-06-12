@@ -151,3 +151,24 @@ Una vez lanzado todo, puedes acceder a la interfaz web de la aplicación desde:
 👉 http://localhost:3000
 
 Ahí podrás subir audios, asignar niveles, y generar transcripciones enriquecidas automáticamente.
+
+## ⚠️ Consideraciones del entorno
+Este proyecto fue desarrollado originalmente en macOS, pero se ha probado también en entornos Windows,
+donde pueden surgir algunos problemas específicos:
+### 🧩 Problemas comunes en Windows
+Puede que el script por defecto para lanzar Etherpad (bin/run.sh) no funciona directamente en Windows.
+En ese caso, es necesario:
+- Instalar ts-node en el workspace raíz del proyecto:
+```bash
+pnpm add -D ts-node -w
+```
+- Modificar el script "etherpad" en el archivo pruebasWhisper/package.json. Sustituye:
+```bash
+"etherpad": "cd etherpad-lite && ./bin/run.sh"
+```
+por:
+```bash
+"etherpad": "cd etherpad-lite && pnpm ts-node src/node/server.ts"
+```
+- En algunos sistemas Windows, la función transcribeAudio en controllers/transcribeController.js puede fallar si se especifica la ruta completa del ejecutable de Python (/usr/bin/python3).
+Para evitarlo, simplemente reemplaza esta línea como se indica en el comentario del propio codigo
