@@ -25,7 +25,7 @@ PRUEBASWHISPER/
 ├── controllers/
 │   ├── etherpadController.js
 │   └── transcribeController.js
-├── etherpad-lite/               ← Carpeta clonada de Etherpad TENGO QUE COMPROBAR QUE PASA CON LOS PLUGINGS
+├── etherpad-lite/               ← Carpeta clonada de Etherpad 
 ├── public/
 │   └── etherpad.css
 │   └── index.css
@@ -91,9 +91,9 @@ e7c1b8f2c1a84b3f93e0a7d53f5a1f4b
 ```sql
 mysql -u root -p   
 
-CREATE DATABASE (nombre_db) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER '(nombre_usuario)'@'localhost' IDENTIFIED BY '(contraseña)';
-GRANT ALL PRIVILEGES ON (nombre_db).* TO '(nombre_usuario)'@'localhost';
+CREATE DATABASE <nombre_db> CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER '<nombre_usuario>'@'localhost' IDENTIFIED BY '<contraseña>';
+GRANT ALL PRIVILEGES ON <nombre_db>.* TO '<nombre_usuario>'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
@@ -102,27 +102,27 @@ Después, en tu settings.json, configura la conexión así:
 ```json
 "dbType" : "mysql",
 "dbSettings" : {
-  "user"    : "(nombre_usuario)",
+  "user"    : "<nombre_usuario>",
   "host"    : "localhost",
-  "password": "(contraseña)",
-  "database": "(nombre_db)",
-  "charset" : "utf8mb4"}
+  "password": "<contraseña>",
+  "database": "<nombre_db>",
+  "charset" : "utf8mb4"},
 "authenticationMethod": "apikey"
 ```
 ### 💻4. Activa el usuario administrador de la interfaz web (en el mismo settings.json):
 ```json
 "users": {
   "admin": {
-    "password": "(contreseña_para_la_interfaz_web)",
+    "password": "(contraseña_para_la_interfaz_web)",
     "is_admin": true
   }
 }
 ```
 
-## 🧠  Configuración del servidor
+## 🧠  Configuración del servidor Node.js (fuera de Etherpad)
 
 En config.js de pruebasWhisper:
-```bash
+```json
 module.exports = {
   etherpad: {
     enabled: true,
@@ -143,7 +143,7 @@ Esto ejecutará de forma concurrente:
 #### 🎨Activar colores en los pads
 Para que funcionen los colores en los pads, se debe acceder a la interfaz de administración de Etherpad:
 👉http://localhost:9001/admin 
-Usa la contraseña que configuraste en el archivo settings.json, y desde ahí instala el plugin ep_font_color.
+Usa la contraseña que configuraste en el archivo settings.json, y desde ahí instala el plugging ep_font_color.
 
 ####  📍Acceso a la interfaz principal de la aplicación
 Una vez lanzado todo, puedes acceder a la interfaz web de la aplicación desde:
