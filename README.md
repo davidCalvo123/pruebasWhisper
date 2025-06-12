@@ -50,8 +50,8 @@ PRUEBASWHISPER/
 ### 1. Clona el proyecto
 
 ```bash
-git clone https://github.com/tu-usuario/proyecto-pruebas.git
-cd proyecto-pruebas
+git clone https://github.com/davidCalvo123/pruebasWhisper.git
+cd pruebasWhisper
 ```
 
 ### 2. Instala las dependencias
