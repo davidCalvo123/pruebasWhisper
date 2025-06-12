@@ -45,7 +45,7 @@ PRUEBASWHISPER/
 ```
 ---
 
-## 🛠️ Instalación y configuración
+## 🛠️ Instalación y configuración del entorno
 
 ### 1. Clona el proyecto
 
@@ -70,14 +70,30 @@ git clone https://github.com/ether/etherpad-lite.git
 cd etherpad-lite
 bin/installDeps.sh
 ```
+## 🔧  Configuración de Etherpad
 
-### 4. Configura la base de datos de Etherpad
-Primero, accede a MySQL y crea la base de datos con las credenciales que usarás en settings.json:(Tengo quemirar esto)
+### 1. Copia el archivo de configuración por defecto:
 ```bash
-CREATE DATABASE (Nombre_de_la_BD DEFAULT) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'etherpad_user'@'localhost' IDENTIFIED BY 'Etherpad!2024';
-GRANT ALL PRIVILEGES ON etherpad_db.* TO 'etherpad_user'@'localhost';
+cp settings.json.template settings.json
+```
+###  ✨2. Edita el archivo settings.json:
+- Cambia el método de autenticación:
+```bash
+"authenticationMethod": "apikey",
+```
+Crea un archivo llamado apikey.txt (en la raíz de etherpad-lite) con una clave segura de al menos 32 caracteres. Por ejemplo:
+```bash
+e7c1b8f2c1a84b3f93e0a7d53f5a1f4b
+```
+###  🛠️3. Configura la base de datos MySQL ejecutando estos comandos:
+```bash
+mysql -u root -p   
+
+CREATE DATABASE (nombre_db) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER '(nombre_usuario)'@'localhost' IDENTIFIED BY '(Contraseña)';
+GRANT ALL PRIVILEGES ON (nombre_db).* TO '(nombre_usuario)'@'localhost';
 FLUSH PRIVILEGES;
+EXIT;
 ```
 ### 5. 📝 Configuración de Etherpad
 Modifica la sección correspondiente:
