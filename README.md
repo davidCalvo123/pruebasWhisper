@@ -4,19 +4,20 @@ Este proyecto está diseñado como entorno de pruebas para integrar **transcripc
 
 ## 🚀 Requisitos previos
 
-Antes de ejecutar el proyecto, asegúrate de tener instalado:
 
-- [Node.js](https://nodejs.org/) (versión recomendada: ≥14)
-- [npm](https://www.npmjs.com/)
+Antes de ejecutar el proyecto, asegúrate de tener instaladas todas las dependencias necesarias.
+
+- [Node.js](https://nodejs.org/) (versión 18 o superior) y [npm](https://www.npmjs.com/) 
+- [pnpm](https://pnpm.io/) instalado globalmente
+
+  ```bash
+  npm install -g pnpm
+  ```
 - [MySQL](https://www.mysql.com/) (con base de datos creada)
-- [Python](https://www.python.org/) (≥3.8)
+- [Python](https://www.python.org/) (≥3.8) con [Whisper (openai-whisper)](https://github.com/openai/whisper)
 - [Git](https://git-scm.com/)
 - [FFmpeg](https://ffmpeg.org/download.html)
-- [Whisper (openai-whisper)](https://github.com/openai/whisper)
 
-
-- `pip install openai-whisper` (o tu entorno con Whisper instalado)
-- Sistema Unix (Linux/macOS) o WSL en Windows (para ejecutar `bin/run.sh` de Etherpad)
 
 ## 📁 Estructura del proyecto
 ```bash
@@ -59,9 +60,16 @@ npm install
 ```
 ### 3. Instala Whisper en Python
 ```bash
-pip install git+https://github.com/openai/whisper.git
+ pip install -U openai-whisper
 ```
 Asegúrate de tener también ffmpeg instalado para procesar los audios.
+
+### 3. Instala la instancia de etherpad-lite en el proyecto
+```bash
+git clone https://github.com/ether/etherpad-lite.git
+cd etherpad-lite
+bin/installDeps.sh
+```
 
 ### 4. Configura la base de datos de Etherpad
 Primero, accede a MySQL y crea la base de datos con las credenciales que usarás en settings.json:(Tengo quemirar esto)
