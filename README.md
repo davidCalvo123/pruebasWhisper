@@ -64,7 +64,7 @@ npm install
 ```
 Asegúrate de tener también ffmpeg instalado para procesar los audios.
 
-### 3. Instala la instancia de etherpad-lite en el proyecto
+### 4. Instala la instancia de etherpad-lite en el proyecto
 ```bash
 git clone https://github.com/ether/etherpad-lite.git
 cd etherpad-lite
@@ -72,47 +72,54 @@ bin/installDeps.sh
 ```
 ## 🔧  Configuración de Etherpad
 
-### 1. Copia el archivo de configuración por defecto:
+### 🗂️1. Copia el archivo de configuración por defecto:
 ```bash
 cp settings.json.template settings.json
 ```
 ###  ✨2. Edita el archivo settings.json:
-- Cambia el método de autenticación:
-```bash
+Cambia el método de autenticación:
+```json
 "authenticationMethod": "apikey",
 ```
+Esto permite el acceso mediante API key desde tu aplicación Node.js sin necesidad de configurar autenticación externa.
+
 Crea un archivo llamado apikey.txt (en la raíz de etherpad-lite) con una clave segura de al menos 32 caracteres. Por ejemplo:
 ```bash
 e7c1b8f2c1a84b3f93e0a7d53f5a1f4b
 ```
 ###  🛠️3. Configura la base de datos MySQL ejecutando estos comandos:
-```bash
+```sql
 mysql -u root -p   
 
 CREATE DATABASE (nombre_db) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER '(nombre_usuario)'@'localhost' IDENTIFIED BY '(Contraseña)';
+CREATE USER '(nombre_usuario)'@'localhost' IDENTIFIED BY '(contraseña)';
 GRANT ALL PRIVILEGES ON (nombre_db).* TO '(nombre_usuario)'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
-### 5. 📝 Configuración de Etherpad
-Modifica la sección correspondiente:
-```bash
+Después, en tu settings.json, configura la conexión así:
+
+```json
 "dbType" : "mysql",
 "dbSettings" : {
-  "user"    : "etherpad_user",
+  "user"    : "(nombre_usuario)",
   "host"    : "localhost",
-  "password": "xxx",
-  "database": "xx",
+  "password": "(contraseña)",
+  "database": "(nombre_db)",
   "charset" : "utf8mb4"}
 "authenticationMethod": "apikey"
 ```
-### 6. Añade el archivo APIKEY.txt
-
-Coloca un archivo llamado APIKEY.txt dentro de etherpad-lite/ con la clave correspondiente, por ejemplo:
-```bash
-ef4f7a8e7898cecaa0038e03faf63e9f8422a51e799919fb7036046ef1d5fb90
+### 💻4. Activa el usuario administrador de la interfaz web (en el mismo settings.json):
+```json
+"users": {
+  "admin": {
+    "password": "(contreseña_para_la_interfaz_web)",
+    "is_admin": true
+  }
+}
 ```
+
+
 ### 7. 🧠 Configuración del servidor
 
 En config.js:
