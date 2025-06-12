@@ -119,10 +119,9 @@ Después, en tu settings.json, configura la conexión así:
 }
 ```
 
+## 🧠  Configuración del servidor
 
-### 7. 🧠 Configuración del servidor
-
-En config.js:
+En config.js de pruebasWhisper:
 ```bash
 module.exports = {
   etherpad: {
@@ -131,12 +130,24 @@ module.exports = {
     port: 9001,
     apiKey: 'TU_API_KEY'}};
 ```
-### 8. 🚀 Ejecución del entorno
+## 🚀  Ejecución del entorno
 
-Puedes lanzar el entorno completo (servidor Node + Etherpad) con:
+Puedes lanzar el entorno completo (servidor Node + Etherpad) desde pruebasWhisper con:
 ```bash
 npm run dev
 ```
 Esto ejecutará de forma concurrente:
 - El servidor principal (app.js)
 - Etherpad (etherpad-lite/bin/run.sh)
+
+#### 🎨Activar colores en los pads
+Para que funcionen los colores en los pads, se debe acceder a la interfaz de administración de Etherpad:
+👉http://localhost:9001/admin 
+Usa la contraseña que configuraste en el archivo settings.json, y desde ahí instala el plugin ep_font_color.
+
+####  📍Acceso a la interfaz principal de la aplicación
+Una vez lanzado todo, puedes acceder a la interfaz web de la aplicación desde:
+
+👉 http://localhost:3000
+
+Ahí podrás subir audios, asignar niveles, y generar transcripciones enriquecidas automáticamente.
