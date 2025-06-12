@@ -122,7 +122,7 @@ Después, en tu settings.json, configura la conexión así:
 ## 🧠  Configuración del servidor Node.js (fuera de Etherpad)
 
 En config.js de pruebasWhisper:
-```json
+```bash
 module.exports = {
   etherpad: {
     enabled: true,
@@ -143,7 +143,7 @@ Esto ejecutará de forma concurrente:
 #### 🎨Activar colores en los pads
 Para que funcionen los colores en los pads, se debe acceder a la interfaz de administración de Etherpad:
 👉http://localhost:9001/admin 
-Usa la contraseña que configuraste en el archivo settings.json, y desde ahí instala el plugging ep_font_color.
+Usa la contraseña que configuraste en el archivo settings.json, y desde ahí instala el plugin ep_font_color.
 
 ####  📍Acceso a la interfaz principal de la aplicación
 Una vez lanzado todo, puedes acceder a la interfaz web de la aplicación desde:
