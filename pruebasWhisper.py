@@ -16,7 +16,7 @@ def adjust_ranges(target_data):
     adjusted_ranges = []
 
     for current in sorted_ranges:
-        start = current["time"] - 3
+        start = current["time"] - 7
         end = current["time"]
         level = current["level"]
 

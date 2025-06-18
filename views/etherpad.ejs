@@ -15,8 +15,7 @@
         <button type="submit">Crear Pad</button>
     </form>
     <!-- FIN Formulario para crear un pad -->
-
-
+    
     <!--<h2>Crear Pad con Texto</h2>
     <form id="createLocalPadWithTextForm" action="/etherpad/createWithText" method="post">
         <label for="padIDWithText">ID del Pad:</label>
@@ -51,7 +50,7 @@
         <thead>
             <tr>
                 <th>Palabra</th>
-                <th>Cantidad Mínima</th>
+                <th>Cantidad</th>
                 <th>Puntuación</th>
                 <th>Acciones</th>
             </tr>
@@ -66,7 +65,7 @@
     <div id="transcriptionArea" class="transcription-area"></div>
     <!-- Resultado de la evaluación -->
     <h2>Resultado de la Evaluación</h2>
-    <p id="finalScore">Puntuación: <strong>0/10</strong></p>
+    <p id="finalScore">Puntuación: <strong></strong></p>
     <!--FIN TABLA DE EVALUACION-->
 
 
@@ -76,6 +75,7 @@
     <h2>Ver y editar Pad</h2>
     <input type="text" id="padIDInput" placeholder="Introduce el ID del Pad" />
     <button id="viewPadButton">Ver Pad</button>
+    <button id="deleteAllPadsButton">Eliminar todos los pads</button>
 
     <div id="padContainer" class="pad-container">
         <iframe id="padFrame"></iframe>
@@ -260,7 +260,7 @@
             const result = await response.json();
 
             transcriptionArea.innerHTML = result.highlightedText;
-            finalScoreElement.innerHTML = `Puntuación: <strong>${result.score}/10</strong>`;
+            finalScoreElement.innerHTML = `Puntuación: <strong>${result.score}</strong>`;
         });
     </script>
 </body>

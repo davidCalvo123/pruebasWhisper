@@ -112,7 +112,7 @@ input#padIDInput:focus {
     margin-bottom: 20px;
 }
 
-#viewPadButton {
+#viewPadButton,#deleteAllPadsButton {
     display: inline-block;
     margin-top: 10px;
     background-color: #2ecc71;
@@ -123,7 +123,7 @@ input#padIDInput:focus {
     cursor: pointer;
 }
 
-#viewPadButton:hover {
+#viewPadButton:hover,#deleteAllPadsButton:hover {
     background-color: #27ae60;
 }
 
@@ -134,7 +134,8 @@ input#padIDInput:focus {
 }
 
 input#padIDInput, 
-button#viewPadButton {
+button#viewPadButton,
+button#deleteAllPadsButton {
     display: block;
     margin: 10px auto;
 }
@@ -224,11 +225,7 @@ button[onclick]:hover {
 button.delete-all {
     background-color: #e74c3c;
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 20px auto;
+
 }
 
 button.delete-all:hover {
@@ -261,7 +258,7 @@ table#criteriaTable td input {
 }
 
 table#criteriaTable td button {
-    background-color: #e74c3c;
+    background-color: white;
     color: white;
     border: none;
     border-radius: 5px;
